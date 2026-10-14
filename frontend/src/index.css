@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand Theme Colors — Change here to update theme globally */
+  --color-brand-dark: #0d0d1a;
+  --color-brand-surface: #12122a;
+  --color-brand-surface-hover: #1a1a38;
+  --color-brand-card: rgba(255, 255, 255, 0.03);
+  --color-brand-card-hover: rgba(255, 255, 255, 0.06);
+  --color-brand-pink: #ff6b9d;
+  --color-brand-purple: #c026d3;
+  --color-brand-violet: #8b5cf6;
+  --color-brand-border: rgba(255, 255, 255, 0.1);
+  --color-brand-border-hover: rgba(255, 255, 255, 0.2);
+}
+
+@layer base {
+  *, ::after, ::before {
+    box-sizing: border-box;
+  }
+
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-brand-dark);
+    color: #f8fafc;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
