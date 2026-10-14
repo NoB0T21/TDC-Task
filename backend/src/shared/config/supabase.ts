@@ -3,7 +3,6 @@ import https from 'https';
 import dotenv from 'dotenv';
 import path from 'path';
 
-// Load .env from backend folder or current working directory
 dotenv.config();
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
@@ -18,11 +17,6 @@ if (!supabaseUrl || !supabaseServiceKey) {
   );
 }
 
-/**
- * HTTP/HTTPS Connection Pooling Agent.
- * Maintains a persistent pool of keep-alive sockets to reuse connections,
- * eliminating TCP and TLS handshake overhead on every Supabase query.
- */
 const httpsPoolAgent = new https.Agent({
   keepAlive: true,
   maxSockets: 50,
@@ -30,10 +24,6 @@ const httpsPoolAgent = new https.Agent({
   timeout: 30000,
 });
 
-/**
- * Noop realtime transport to strictly disable real-time WebSocket connections.
- * Ensures the backend exclusively uses pooled HTTP requests.
- */
 class NoopRealtimeTransport {
   constructor() {}
   close() {}
@@ -44,15 +34,13 @@ export const supabase = createClient(supabaseUrl, supabaseServiceKey, {
     persistSession: false,
     autoRefreshToken: false,
   },
-  // Realtime disabled completely - no WebSocket connection opened
   realtime: {
     transport: NoopRealtimeTransport as any,
   },
   global: {
     fetch: (url, options = {}) => {
-      return fetch(url, {
+      return (fetch as any)(url, {
         ...options,
-        // @ts-ignore
         agent: httpsPoolAgent,
       });
     },

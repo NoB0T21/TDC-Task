@@ -49,7 +49,7 @@ export function Modal({
       aria-modal="true"
     >
       <div
-        className={`bg-brand-surface border border-brand-border rounded-3xl shadow-2xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 ${maxWidthMap[maxWidth]}`}
+        className={`bg-brand-surface border border-brand-border rounded-lg shadow-2xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 ${maxWidthMap[maxWidth]}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4 p-6 border-b border-brand-border">
@@ -58,7 +58,7 @@ export function Modal({
             {description && <p className="text-sm text-slate-400 mt-1">{description}</p>}
           </div>
           <button
-            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+            className="text-slate-400 hover:text-white p-1 rounded-md hover:bg-white/10 transition-colors cursor-pointer"
             onClick={onClose}
             aria-label="Close dialog"
           >

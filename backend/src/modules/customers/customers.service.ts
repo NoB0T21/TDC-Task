@@ -27,7 +27,7 @@ export async function getCustomersByMatchmaker(params: CustomerListParams) {
     .from('customers')
     .select(LIST_COLUMNS, { count: 'exact' })
     .eq('assigned_matchmaker_id', matchmakerId)
-    .eq('is_dummy', false) // Never show dummy profiles in dashboard client list
+    .eq('is_dummy', false)
     .order('created_at', { ascending: false })
     .range(from, to);
 

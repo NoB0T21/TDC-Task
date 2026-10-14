@@ -4,7 +4,6 @@ import { redis } from '../config/redis';
 import { sendError } from '../utils/response.util';
 import type { JwtPayload } from '../../types';
 
-// Extend Express Request to include matchmaker info
 declare global {
   namespace Express {
     interface Request {
@@ -27,7 +26,6 @@ export async function authMiddleware(
 
     const token = authHeader.split(' ')[1];
 
-    // Check if token is blacklisted (logged out)
     try {
       const isBlacklisted = await redis.get(`blacklist:${token}`);
       if (isBlacklisted) {

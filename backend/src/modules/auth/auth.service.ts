@@ -3,7 +3,7 @@ import { redis } from '../../shared/config/redis';
 import { verifyPassword } from '../../shared/utils/hash.util';
 import { signToken } from '../../shared/utils/jwt.util';
 
-const SESSION_TTL = 7 * 24 * 60 * 60; // 7 days in seconds
+const SESSION_TTL = 7 * 24 * 60 * 60;
 
 export interface LoginResult {
   matchmaker: { id: string; email: string; name: string };
@@ -11,7 +11,6 @@ export interface LoginResult {
 }
 
 export async function loginService(email: string, password: string): Promise<LoginResult | null> {
-  // Fetch matchmaker by email
   const { data: matchmaker, error } = await supabase
     .from('matchmakers')
     .select('id, email, name, password_hash, is_active')
@@ -22,16 +21,13 @@ export async function loginService(email: string, password: string): Promise<Log
     return null;
   }
 
-  // Verify password
   const isValid = await verifyPassword(password, matchmaker.password_hash);
   if (!isValid) {
     return null;
   }
 
-  // Sign JWT
   const token = signToken({ matchmakerId: matchmaker.id, email: matchmaker.email });
 
-  // Cache session in Redis (fast validation on subsequent requests)
   try {
     await redis.setex(
       `session:${matchmaker.id}`,
@@ -50,9 +46,7 @@ export async function loginService(email: string, password: string): Promise<Log
 
 export async function logoutService(token: string, matchmakerId: string): Promise<void> {
   try {
-    // Blacklist the token (expires with JWT TTL)
     await redis.setex(`blacklist:${token}`, SESSION_TTL, '1');
-    // Clear session cache
     await redis.del(`session:${matchmakerId}`);
   } catch (redisErr) {
     console.warn('Redis logout operation failed:', redisErr);
@@ -60,7 +54,6 @@ export async function logoutService(token: string, matchmakerId: string): Promis
 }
 
 export async function getMeService(matchmakerId: string) {
-  // Try Redis cache first
   try {
     const cached = await redis.get(`session:${matchmakerId}`);
     if (cached) return JSON.parse(cached);
@@ -68,7 +61,6 @@ export async function getMeService(matchmakerId: string) {
     console.warn('Redis get session failed:', redisErr);
   }
 
-  // Fallback to DB
   const { data, error } = await supabase
     .from('matchmakers')
     .select('id, email, name, created_at')

@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand Theme Colors — Change here to update theme globally */
   --color-brand-dark: #0d0d1a;
   --color-brand-surface: #12122a;
   --color-brand-surface-hover: #1a1a38;

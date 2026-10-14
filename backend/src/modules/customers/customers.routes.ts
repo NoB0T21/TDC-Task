@@ -4,7 +4,6 @@ import { authMiddleware } from '../../shared/middlewares/auth.middleware';
 
 const router = Router();
 
-// All customer routes require authentication
 router.use(authMiddleware);
 
 router.get('/', listCustomers);

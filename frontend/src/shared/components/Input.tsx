@@ -46,7 +46,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             ref={ref}
             required={required}
-            className={`w-full h-11 bg-white/[0.05] border rounded-xl text-sm text-slate-100 placeholder-slate-500 outline-none transition-all duration-200 focus:bg-white/[0.08] disabled:opacity-50 disabled:cursor-not-allowed ${
+            className={`w-full h-11 bg-white/[0.05] border rounded-lg text-sm text-slate-100 placeholder-slate-500 outline-none transition-all duration-200 focus:bg-white/[0.08] disabled:opacity-50 disabled:cursor-not-allowed ${
               leftIcon ? 'pl-10' : 'pl-3.5'
             } ${rightIcon ? 'pr-10' : 'pr-3.5'} ${
               error

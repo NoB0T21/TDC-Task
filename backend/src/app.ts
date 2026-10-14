@@ -17,7 +17,6 @@ dotenv.config({ path: path.resolve(process.cwd(), 'backend/.env') });
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Security & Base Middlewares
 app.use(helmet());
 app.use(
   cors({
@@ -28,19 +27,15 @@ app.use(
 app.use(express.json({ limit: '10kb' }));
 app.use(morgan('dev'));
 
-// General Rate Limiter on API routes
 app.use('/api', apiRateLimiter);
 
-// Health check
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Mount Modules
 app.use('/api/auth', authRoutes);
 app.use('/api/customers', customersRoutes);
 
-// Centralized Error Middleware (must be after all routes)
 app.use(errorMiddleware);
 
 if (process.env.NODE_ENV !== 'test') {

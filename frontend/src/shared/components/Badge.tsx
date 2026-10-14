@@ -46,7 +46,7 @@ export function Badge({
 }: BadgeProps) {
   return (
     <span
-      className={`inline-flex items-center font-semibold rounded-full border capitalize leading-tight ${badgeVariants[variant]} ${badgeSizes[size]} ${className}`}
+      className={`inline-flex items-center font-semibold rounded-md border capitalize leading-tight ${badgeVariants[variant]} ${badgeSizes[size]} ${className}`}
     >
       {icon && <span className="inline-flex items-center">{icon}</span>}
       <span>{children}</span>

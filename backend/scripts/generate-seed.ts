@@ -61,7 +61,6 @@ function randDate(startYear: number, endYear: number): string {
 async function seed() {
   console.log('🌱 Starting database seeding...');
 
-  // 1. Fetch Demo Matchmaker
   const { data: matchmaker, error: mmErr } = await supabase
     .from('matchmakers')
     .select('id, email, name')
@@ -75,7 +74,6 @@ async function seed() {
 
   console.log(`👤 Found demo matchmaker: ${matchmaker.name} (${matchmaker.id})`);
 
-  // 2. Seed Primary Assigned Clients for Priya Sharma (is_dummy: false)
   const assignedClients = [
     {
       assigned_matchmaker_id: matchmaker.id,
@@ -354,10 +352,8 @@ async function seed() {
     console.log('✅ Assigned clients seeded successfully.');
   }
 
-  // 3. Generate Candidate Pool (is_dummy: true)
   const poolProfiles: any[] = [];
 
-  // 60 Female Candidates
   for (let i = 0; i < 60; i++) {
     const fName = rand(FIRST_NAMES_F);
     const lName = rand(LAST_NAMES);
@@ -400,7 +396,6 @@ async function seed() {
     });
   }
 
-  // 50 Male Candidates
   for (let i = 0; i < 50; i++) {
     const fName = rand(FIRST_NAMES_M);
     const lName = rand(LAST_NAMES);
@@ -445,7 +440,6 @@ async function seed() {
 
   console.log(`🌊 Seeding candidate pool (${poolProfiles.length} profiles)...`);
 
-  // Insert in batches of 25 to respect payload sizes
   const batchSize = 25;
   for (let i = 0; i < poolProfiles.length; i += batchSize) {
     const batch = poolProfiles.slice(i, i + batchSize);

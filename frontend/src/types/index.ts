@@ -1,5 +1,3 @@
-// ── Shared Types for TDC Matchmaker Dashboard ─────────────────────────────
-
 export interface Matchmaker {
   id: string;
   email: string;
@@ -27,7 +25,7 @@ export interface Customer {
   first_name: string;
   last_name: string;
   gender: Gender;
-  date_of_birth: string;           // ISO date string e.g. "1995-06-15"
+  date_of_birth: string;
   country: string;
   city: string;
   height_cm: number;
@@ -35,7 +33,7 @@ export interface Customer {
   phone?: string;
   college?: string;
   degree?: string;
-  income_lpa?: number;             // Lakhs per annum
+  income_lpa?: number;
   company?: string;
   designation?: string;
   marital_status: MaritalStatus;
@@ -67,7 +65,6 @@ export interface MatchResult {
   scoreBreakdown: Record<string, number>;
 }
 
-// ── API Response wrapper ───────────────────────────────────────────────────
 export interface ApiResponse<T = null> {
   success: boolean;
   message: string;
@@ -75,7 +72,6 @@ export interface ApiResponse<T = null> {
   error?: string;
 }
 
-// ── Paginated list ─────────────────────────────────────────────────────────
 export interface PaginatedResult<T> {
   items: T[];
   total: number;

@@ -7,7 +7,6 @@ import {
 } from 'react';
 import type { AuthUser } from '@/types';
 
-// ── Context Shape ──────────────────────────────────────────────────────────
 interface AuthContextType {
   user: AuthUser | null;
   token: string | null;
@@ -20,13 +19,11 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 const AUTH_STORAGE_KEY = 'tdc_auth';
 
-// ── Provider ───────────────────────────────────────────────────────────────
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Rehydrate from localStorage on first mount
   useEffect(() => {
     try {
       const stored = localStorage.getItem(AUTH_STORAGE_KEY);
@@ -61,7 +58,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// ── Hook ───────────────────────────────────────────────────────────────────
 export function useAuth(): AuthContextType {
   const ctx = useContext(AuthContext);
   if (!ctx) {

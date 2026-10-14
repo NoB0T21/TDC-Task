@@ -5,3 +5,5 @@ export * from './Input';
 export * from './Modal';
 export * from './LoadingSpinner';
 export * from './ProtectedRoute';
+export * from './Navbar';
+export * from './StatusBadge';
