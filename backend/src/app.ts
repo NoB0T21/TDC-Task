@@ -20,9 +20,28 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(helmet());
+const rawFrontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+const allowedOrigins = rawFrontendUrl
+  .split(',')
+  .map((url) => url.trim().replace(/\/+$/, ''))
+  .filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: (origin, callback) => {
+      // Allow server-to-server or tools with no origin header (like curl or postman)
+      if (!origin) return callback(null, true);
+      const cleanOrigin = origin.replace(/\/+$/, '');
+      const isAllowed =
+        allowedOrigins.includes(cleanOrigin) ||
+        (process.env.NODE_ENV !== 'production' &&
+          (cleanOrigin.startsWith('http://localhost:') || cleanOrigin.startsWith('http://127.0.0.1:')));
+
+      if (isAllowed) {
+        return callback(null, true);
+      }
+      return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
     credentials: true,
   })
 );
@@ -35,10 +54,17 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Primary API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/customers', customersRoutes);
 app.use('/api/matching', matchingRoutes);
 app.use('/api/ai', aiRoutes);
+
+// Route aliases without /api prefix
+app.use('/auth', authRoutes);
+app.use('/customers', customersRoutes);
+app.use('/matching', matchingRoutes);
+app.use('/ai', aiRoutes);
 
 app.use(errorMiddleware);
 
