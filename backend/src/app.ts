@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 import path from 'path';
 import authRoutes from './modules/auth/auth.routes';
 import customersRoutes from './modules/customers/customers.routes';
+import matchingRoutes from './modules/matching/matching.routes';
+import aiRoutes from './modules/ai/ai.routes';
 import { errorMiddleware } from './shared/middlewares/error.middleware';
 import { apiRateLimiter } from './shared/middlewares/rateLimiter.middleware';
 
@@ -35,6 +37,8 @@ app.get('/health', (_req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/customers', customersRoutes);
+app.use('/api/matching', matchingRoutes);
+app.use('/api/ai', aiRoutes);
 
 app.use(errorMiddleware);
 
