@@ -11,7 +11,6 @@ RUN npm install -g pm2
 COPY . .
 
 RUN NODE_OPTIONS="--max-old-space-size=1024" npm run build
-RUN chmod +x start.sh
 
 EXPOSE 5000
 
